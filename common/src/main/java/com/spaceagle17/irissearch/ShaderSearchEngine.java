@@ -134,9 +134,9 @@ public class ShaderSearchEngine {
 
             int score = 0;
             if (!readableName.isEmpty() && wholeWordPat.matcher(readableName).find())   score |= (1 << 8);
-            if (wholeWordPat.matcher(rawId).find())                                     score |= (1 << 7);
-            if (!commentText.isEmpty() && wholeWordPat.matcher(commentText).find())     score |= (1 << 6);
-            if (!readableName.isEmpty() && startsWithPat.matcher(readableName).find())  score |= (1 << 5);
+            if (!readableName.isEmpty() && startsWithPat.matcher(readableName).find())  score |= (1 << 7);
+            if (wholeWordPat.matcher(rawId).find())                                     score |= (1 << 6);
+            if (!commentText.isEmpty() && wholeWordPat.matcher(commentText).find())     score |= (1 << 5);
             if (startsWithPat.matcher(rawId).find())                                    score |= (1 << 4);
             if (!commentText.isEmpty() && startsWithPat.matcher(commentText).find())    score |= (1 << 3);
             if (!readableName.isEmpty() && readableName.contains(trimmedQuery))         score |= (1 << 2);

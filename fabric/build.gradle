@@ -183,7 +183,7 @@ publishMods {
         }
 
 		requires {
-			id = "iris"
+			slug = "iris"
 		}
 
     }
