@@ -133,21 +133,21 @@ tasks.register('cleanLibs') {
     }
 }
 
-// Define build order: neoforge -> forge -> fabric
+// Define build order: forge -> neoforge -> fabric
 tasks.register('buildAll') {
     group = 'build'
     description = 'Builds all mod loader variants in the correct order'
 
     dependsOn cleanLibs
 
-    if (project.findProject(":neoforge") != null) {
-        println "Building Neoforge variant..."
-        dependsOn ":neoforge:build"
-    }
-
     if (project.findProject(":forge") != null) {
         println "Building Forge variant..."
         dependsOn ":forge:build"
+    }
+
+    if (project.findProject(":neoforge") != null) {
+        println "Building Neoforge variant..."
+        dependsOn ":neoforge:build"
     }
 
     if (project.findProject(":fabric") != null) {
@@ -184,13 +184,13 @@ tasks.register('publishAll') {
 
     dependsOn cleanLibs
 
-    if (project.findProject(":neoforge") != null) {
-        println "Publishing Neoforge variant..."
-        dependsOn ':neoforge:publishMods'
-    }
     if (project.findProject(":forge") != null) {
         println "Publishing Forge variant..."
         dependsOn ':forge:publishMods'
+    }
+    if (project.findProject(":neoforge") != null) {
+        println "Publishing Neoforge variant..."
+        dependsOn ':neoforge:publishMods'
     }
     if (project.findProject(":fabric") != null) {
         println "Publishing Fabric variant..."
@@ -211,15 +211,15 @@ tasks.register('publishAll') {
 gradle.projectsEvaluated {
 	// Define all loaders in publishing order
 	def loaders = [
+        [name: 'forge',
+		 publishMods: tasks.findByPath(':forge:publishMods'),
+		 curseforge: tasks.findByPath(':forge:publishCurseforge'),
+		 modrinth: tasks.findByPath(':forge:publishModrinth')],
+
 		[name: 'neoforge',
 		 publishMods: tasks.findByPath(':neoforge:publishMods'),
 		 curseforge: tasks.findByPath(':neoforge:publishCurseforge'),
 		 modrinth: tasks.findByPath(':neoforge:publishModrinth')],
-
-		[name: 'forge',
-		 publishMods: tasks.findByPath(':forge:publishMods'),
-		 curseforge: tasks.findByPath(':forge:publishCurseforge'),
-		 modrinth: tasks.findByPath(':forge:publishModrinth')],
 
 		[name: 'fabric',
 		 publishMods: tasks.findByPath(':fabric:publishMods'),
