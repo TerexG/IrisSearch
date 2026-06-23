@@ -88,15 +88,15 @@ dependencies {
 
     // Dependencies to be shadowed
     shade project(':common')
-    shade 'com.google.code.gson:gson:2.8.9'
-    shade 'org.apache.commons:commons-compress:1.21'
-    shade 'commons-io:commons-io:2.11.0'
-    shade 'commons-codec:commons-codec:1.15'
-    shade 'org.joml:joml:1.10.5'
-    shade('com.google.guava:guava:32.1.2-jre') {
-		// Keep Guava shaded, but do not pull transitive annotation/helper jars.
-		transitive = false
-	}
+//    shade 'com.google.code.gson:gson:2.8.9'
+//    shade 'org.apache.commons:commons-compress:1.21'
+//    shade 'commons-io:commons-io:2.11.0'
+//    shade 'commons-codec:commons-codec:1.15'
+//    shade 'org.joml:joml:1.10.5'
+//    shade('com.google.guava:guava:32.1.2-jre') {
+//		// Keep Guava shaded, but do not pull transitive annotation/helper jars.
+//		transitive = false
+//	}
     compileOnly "maven.modrinth:iris:1.8.12+1.21.1-neoforge"
 }
 
@@ -122,9 +122,9 @@ shadowJar {
     destinationDirectory.set(file("${rootProject.buildDir}/libs"))
 
     // Relocate ALL the problematic libraries to avoid conflicts
-    relocate 'org.apache.commons', 'com.irissearch.shadow.org.apache.commons'
-    relocate 'com.google', 'com.irissearch.shadow.com.google'
-    relocate 'org.joml', 'com.irissearch.shadow.org.joml'
+//    relocate 'org.apache.commons', 'com.irissearch.shadow.org.apache.commons'
+//    relocate 'com.google', 'com.irissearch.shadow.com.google'
+//    relocate 'org.joml', 'com.irissearch.shadow.org.joml'
 
     // Include license file if exists
     from("LICENSE") {

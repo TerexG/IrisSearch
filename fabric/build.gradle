@@ -51,17 +51,17 @@ dependencies {
 
 	// Dependencies to be shadowed (common dependencies need to be shaded into final jar)
 	shade project(':common')
-	shade 'com.google.code.gson:gson:2.8.9'
-	shade 'org.joml:joml:1.10.5'
-	shade('com.google.guava:guava:32.1.2-jre') {
-		// Keep Guava shaded, but do not pull transitive annotation/helper jars.
-		transitive = false
-	}
+//	shade 'com.google.code.gson:gson:2.8.9'
+//	shade 'org.joml:joml:1.10.5'
+//	shade('com.google.guava:guava:32.1.2-jre') {
+//		// Keep Guava shaded, but do not pull transitive annotation/helper jars.
+//		transitive = false
+//	}
 
 	// Apache Commons dependencies - these need to be shadowed
-	shade 'org.apache.commons:commons-compress:1.21'
-	shade 'commons-io:commons-io:2.11.0'
-	shade 'commons-codec:commons-codec:1.15'
+//	shade 'org.apache.commons:commons-compress:1.21'
+//	shade 'commons-io:commons-io:2.11.0'
+//	shade 'commons-codec:commons-codec:1.15'
 }
 
 // Disable the default jar task
@@ -75,10 +75,10 @@ shadowJar {
 	configurations = [project.configurations.shade]
 	archiveClassifier.set('shadow')
 
-	// Relocate the problematic libraries to avoid conflicts
-	relocate 'org.apache.commons', 'com.irissearch.shadow.org.apache.commons'
-	relocate 'com.google', 'com.irissearch.shadow.com.google'
-	relocate 'org.joml', 'com.irissearch.shadow.org.joml'
+//	// Relocate the problematic libraries to avoid conflicts
+//	relocate 'org.apache.commons', 'com.irissearch.shadow.org.apache.commons'
+//	relocate 'com.google', 'com.irissearch.shadow.com.google'
+//	relocate 'org.joml', 'com.irissearch.shadow.org.joml'
 
 	// Include license file
 	from("../LICENSE") {
