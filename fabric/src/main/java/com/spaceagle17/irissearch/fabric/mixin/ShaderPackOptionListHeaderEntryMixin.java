@@ -27,12 +27,12 @@ public abstract class ShaderPackOptionListHeaderEntryMixin implements ISearchabl
     @Shadow @Final @Mutable private IrisElementRow backButton;
     @Shadow @Final private static int MIN_SIDE_BUTTON_WIDTH;
 
-    @Unique private static final String CLEAR_TEXT_RAW = "❌ Clear";
-    @Unique private static final String SEARCH_TEXT_RAW = "\uD83D\uDD0D Search";
+    @Unique private static final String CLEAR_BUTTON_EMOJI = "❌ ";
+    @Unique private static final String SEARCH_BUTTON_EMOJI = "\uD83D\uDD0D ";
     @Unique private static final int SEARCH_BOX_GAP = 3;
 
-    @Unique private static final String SEARCH_TOOLTIP_TEXT = "Search Shader Settings (Ctrl + F)";
-    @Unique private static final String CLEAR_TOOLTIP_TEXT = "Exit Shader Search (Esc)";
+    @Unique private static final String SEARCH_TOOLTIP_KEY = "iris_search.tooltip.search";
+    @Unique private static final String CLEAR_TOOLTIP_KEY = "iris_search.tooltip.clear";
 
     @Unique private Object irisSearch$searchToggleButtonElement;
     @Unique private String irisSearch$searchToggleTooltipText;
@@ -209,8 +209,8 @@ public abstract class ShaderPackOptionListHeaderEntryMixin implements ISearchabl
                     if (buttonText == null) buttonText = createLiteralComponent("< Back");
                 } else {
                     buttonText = searchable.irisSearch$isSearchModeActive()
-                            ? createLiteralComponent(CLEAR_TEXT_RAW)
-                            : createLiteralComponent(SEARCH_TEXT_RAW);
+                            ? MinecraftBridge.appendComponent(createLiteralComponent(CLEAR_BUTTON_EMOJI), MinecraftBridge.createTranslatableComponent("iris_search.button.clear"))
+                            : MinecraftBridge.appendComponent(createLiteralComponent(SEARCH_BUTTON_EMOJI), MinecraftBridge.createTranslatableComponent("iris_search.button.search"));
                 }
 
                 int width = Math.max(MIN_SIDE_BUTTON_WIDTH, getFontWidth(buttonText) + 8);
@@ -238,7 +238,7 @@ public abstract class ShaderPackOptionListHeaderEntryMixin implements ISearchabl
 
                     this.irisSearch$searchToggleButtonElement = element;
                     this.irisSearch$searchToggleTooltipText =
-                            searchable.irisSearch$isSearchModeActive() ? CLEAR_TOOLTIP_TEXT : SEARCH_TOOLTIP_TEXT;
+                            searchable.irisSearch$isSearchModeActive() ? CLEAR_TOOLTIP_KEY : SEARCH_TOOLTIP_KEY;
                 }
 
                 this.backButton = new IrisElementRow();

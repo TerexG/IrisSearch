@@ -107,6 +107,49 @@ public class MinecraftBridge {
         return null;
     }
 
+    public static Object createTranslatableComponent(String key) {
+        try {
+            Class<?> componentClass = resolveClass(
+                    "net.minecraft.src.C_4996_",
+                    "net.minecraft.network.chat.Component"
+            );
+            if (componentClass == null) {
+                return null;
+            }
+
+            for (String methodName : new String[]{"m_237115_", "translatable", "method_43471"}) {
+                try {
+                    Method m = componentClass.getDeclaredMethod(methodName, String.class);
+                    m.setAccessible(true);
+                    Object result = m.invoke(null, key);
+                    if (result != null) {
+                        return result;
+                    }
+                } catch (NoSuchMethodException ignored) {
+                }
+            }
+        } catch (Throwable t) {
+            debugLog("createTranslatableComponent failed for \"" + key + "\": " + t);
+        }
+        return null;
+    }
+
+    public static Object appendComponent(Object base, Object appendage) {
+        if (base == null || appendage == null) return base;
+        for (String methodName : new String[]{"append", "method_10852", "m_7220_"}) {
+            Method m = findMethodByInterfaceParam(base.getClass(), methodName, appendage.getClass());
+            if (m != null) {
+                try {
+                    Object result = m.invoke(base, appendage);
+                    return result != null ? result : base;
+                } catch (Throwable ignored) {
+                }
+            }
+        }
+        debugLog("appendComponent: all candidates failed");
+        return base;
+    }
+
     private static boolean isAssignable(Class<?> paramType, Object arg) {
         if (arg == null) {
             return !paramType.isPrimitive();
@@ -232,8 +275,8 @@ public class MinecraftBridge {
      * how Iris's own HeaderEntry draws its button tooltips. Silently no-ops on any failure
      * since a missing tooltip is cosmetic, not worth crashing the row over.
      */
-    public static void queueHeaderTooltip(Object guiGraphics, Object buttonElement, String tooltipText, int x, int y) {
-        if (buttonElement == null || tooltipText == null || guiGraphics == null) {
+    public static void queueHeaderTooltip(Object guiGraphics, Object buttonElement, String tooltipKey, int x, int y) {
+        if (buttonElement == null || tooltipKey == null || guiGraphics == null) {
             return;
         }
 
@@ -247,7 +290,7 @@ public class MinecraftBridge {
 
             Object font = getMinecraftFont();
             debugLog("queueHeaderTooltip: font = " + font);
-            Object textComponent = createLiteralComponent(tooltipText);
+            Object textComponent = createTranslatableComponent(tooltipKey);
             debugLog("queueHeaderTooltip: textComponent = " + textComponent);
             if (font == null || textComponent == null) {
                 debugLog("Skipping tooltip draw: font or text component unavailable.");

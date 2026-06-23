@@ -90,6 +90,49 @@ public class MinecraftBridge {
         return null;
     }
 
+    public static Object createTranslatableComponent(String key) {
+        try {
+            Class<?> componentClass = resolveClass(
+                    "net.minecraft.network.chat.Component",
+                    "net.minecraft.class_2561"
+            );
+            if (componentClass == null) {
+                return null;
+            }
+
+            for (String methodName : new String[]{"translatable", "method_43471"}) {
+                try {
+                    Method m = componentClass.getDeclaredMethod(methodName, String.class);
+                    m.setAccessible(true);
+                    Object result = m.invoke(null, key);
+                    if (result != null) {
+                        return result;
+                    }
+                } catch (NoSuchMethodException ignored) {
+                }
+            }
+        } catch (Throwable t) {
+            debugLog("createTranslatableComponent failed for \"" + key + "\": " + t);
+        }
+        return null;
+    }
+
+    public static Object appendComponent(Object base, Object appendage) {
+        if (base == null || appendage == null) return base;
+        for (String methodName : new String[]{"append", "method_10852", "m_7220_"}) {
+            Method m = findMethodByInterfaceParam(base.getClass(), methodName, appendage.getClass());
+            if (m != null) {
+                try {
+                    Object result = m.invoke(base, appendage);
+                    return result != null ? result : base;
+                } catch (Throwable ignored) {
+                }
+            }
+        }
+        debugLog("appendComponent: all candidates failed");
+        return base;
+    }
+
     public static int getFontWidth(Object font, Object component) {
         if (font == null || component == null) {
             return 50;
@@ -337,8 +380,8 @@ public class MinecraftBridge {
      * how Iris's own HeaderEntry draws its button tooltips. Silently no-ops on any failure
      * since a missing tooltip is cosmetic, not worth crashing the row over.
      */
-    public static void queueHeaderTooltip(Object guiGraphics, Object buttonElement, String tooltipText, int x, int y) {
-        if (buttonElement == null || tooltipText == null || guiGraphics == null) {
+    public static void queueHeaderTooltip(Object guiGraphics, Object buttonElement, String tooltipKey, int x, int y) {
+        if (buttonElement == null || tooltipKey == null || guiGraphics == null) {
             return;
         }
 
@@ -350,7 +393,7 @@ public class MinecraftBridge {
             }
 
             Object font = getMinecraftFont();
-            Object textComponent = createLiteralComponent(tooltipText);
+            Object textComponent = createTranslatableComponent(tooltipKey);
             if (font == null || textComponent == null) {
                 debugLog("Skipping tooltip draw: font or text component unavailable.");
                 return;
