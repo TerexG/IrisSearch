@@ -116,11 +116,11 @@ public abstract class ShaderPackScreenMixin {
 
         try {
             irisSearch$debugLog("before search box creation yaaaay");
-            EditBox box = new EditBox(irisSearch$accessor().irisSearch$getFont(), 0, 0, 10, 16, Component.literal("Search shader options"));
+            EditBox box = new EditBox(irisSearch$accessor().irisSearch$getFont(), 0, 0, 10, 16, Component.translatable("iris_search.search.hint"));
             irisSearch$debugLog("Creating search box with initial bounds");
             box.setMaxLength(64);
             box.setBordered(true);
-            box.setHint(Component.literal("Search options...")
+            box.setHint(Component.translatable("iris_search.search.hint")
                     .withStyle(Style.EMPTY.applyFormats(ChatFormatting.GRAY, ChatFormatting.ITALIC)));
 
             irisSearch$positionSearchBox(box);

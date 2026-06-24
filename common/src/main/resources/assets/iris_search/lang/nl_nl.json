@@ -2,5 +2,6 @@
   "iris_search.button.search": "Zoeken",
   "iris_search.button.clear": "Leegmaken",
   "iris_search.tooltip.search": "Shader-instellingen Zoeken (Ctrl + F)",
-  "iris_search.tooltip.clear": "Shader-zoeken Verlaten (Esc)"
+  "iris_search.tooltip.clear": "Shader-zoeken Verlaten (Esc)",
+  "iris_search.search.hint": "Instellingen zoeken..."
 }

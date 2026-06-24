@@ -119,14 +119,13 @@ public class ShaderPackScreenMixin {
                 return null;
             }
 
-            Object narrationComponent = MinecraftBridge.createLiteralComponent("Search shader options");
-            Object hintComponent = MinecraftBridge.createLiteralComponent("Search options...");
-            if (narrationComponent == null || hintComponent == null) {
+            Object hintComponent = MinecraftBridge.createTranslatableComponent("iris_search.search.hint");
+            if (hintComponent == null) {
                 debugLog("Could not create narration/hint text components");
                 return null;
             }
 
-            Object box = MinecraftBridge.instantiate(editBoxClass, font, 0, 0, 10, 16, narrationComponent);
+            Object box = MinecraftBridge.instantiate(editBoxClass, font, 0, 0, 10, 16, hintComponent);
             if (box == null) {
                 debugLog("Could not find a matching EditBox constructor");
                 return null;
